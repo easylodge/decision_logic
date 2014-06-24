@@ -117,6 +117,19 @@ describe DecisionLogic::Request do
         expect(@request.profile_guid).to_not eq(nil)
       end
     end
+
+    describe ".search_banks_by_bank_name" do 
+      it "returns hash with results" do 
+        expect(@request.search_banks_by_bank_name('woolworths')[:banks_search_result][:content_service_id]).to eq("489")
+      end
+    end
+
+    describe ".create_request4" do 
+      
+      it "returns 6 character string" do 
+        expect(@request.create_request4(@service_hash, @entity_hash).length).to eq(6)
+      end
+    end
       
   end
 
