@@ -10,15 +10,15 @@ describe DecisionLogic::Request do
 
   end
 
-  describe "with access hash" do
-  before do 
-    @request = DecisionLogic::Request.new(
-        { service_key: 'my_service_key',
-          site_user_guid: 'my_site_user_guid',
-          profile_guid: 'my_profile_guid'
-        }
-      )
-  end 
+  describe "with access hash and invalid details" do
+    before do 
+      @request = DecisionLogic::Request.new(
+          { service_key: 'my_service_key',
+            site_user_guid: 'my_site_user_guid',
+            profile_guid: 'my_profile_guid'
+          }
+        )
+    end 
     it "creates instance" do 
       expect(@request.class).to eq(DecisionLogic::Request)
     end
@@ -40,6 +40,87 @@ describe DecisionLogic::Request do
         expect(@request.profile_guid).to eq('my_profile_guid')
       end
     end
+
+    describe ".hello_world" do 
+      it "returns 'Hello World'" do 
+        expect(@request.hello_world).to eq('Hello World')
+      end
+    end
+
+    describe ".search_banks_by_bank_name" do 
+      it "returns nil" do 
+        expect(@request.search_banks_by_bank_name('woolworths')).to eq(nil)
+      end
+    end
+
+    describe "dev_config.yml" do
+      it "should exist" do 
+        expect{File.read('dev_config.yml')}.to_not raise_error
+      end
+
+      it "is included in the gitignore file" do
+        expect(File.read('.gitignore')).to include('dev_config.yml')
+      end
+    end
   end
+
+  describe "with developer decision_logic config file" do
+    before do 
+      config = YAML.load_file('dev_veda_access.yml')
+      service_key = config[:service_key]
+      site_user_guid = config[:site_user_guid]
+      profile_guid = config[:profile_guid]
+      @entity_hash = {
+        :customer_id => "1",
+        :first_name => "Andrew",
+        :last_name => "Smith",
+        :account_number => "123456789",
+        :email_address => "andrew@example.com"}
+      @service_hash = {
+      :content_service_id => "489"
+      }
+      @request = DecisionLogic::Request.new(
+          { service_key: service_key,
+            site_user_guid: site_user_guid,
+            profile_guid: profile_guid
+          }
+        )
+      
+
+
+    end
+
+    describe "dev_config.yml" do
+      it "should exist" do 
+        expect(File.read('dev_config.yml')).to_not raise_error
+      end
+
+      it "is included in the gitignore file" do
+        expect(File.read('.gitignore')).to include('dev_config.yml')
+      end
+    end
+    
+    describe ".service_key" do
+      it "returns service_key value" do
+        expect(VedaIdmatrix::Request.access[:url]).to eq('https://ctaau.vedaxml.com/cta/sys2/idmatrix-v4')
+      end
+    end 
+
+    describe ".site_user_guid" do
+      it "returns site_user_guid" do
+        expect(VedaIdmatrix::Request.access[:access_code]).to_not eq(nil)
+      end
+    end
+
+    describe ".profile_guid" do 
+      it "returns profile_guid" do
+        expect(VedaIdmatrix::Request.access[:password]).to_not eq(nil)
+      end
+    end
+      
+  end
+
+
+  
 
 end
