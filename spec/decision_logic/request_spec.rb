@@ -66,10 +66,10 @@ describe DecisionLogic::Request do
 
   describe "with developer decision_logic config file" do
     before do 
-      config = YAML.load_file('dev_veda_access.yml')
-      service_key = config[:service_key]
-      site_user_guid = config[:site_user_guid]
-      profile_guid = config[:profile_guid]
+      config = YAML.load_file('dev_config.yml')
+      service_key = config["service_key"]
+      site_user_guid = config["site_user_guid"]
+      profile_guid = config["profile_guid"]
       @entity_hash = {
         :customer_id => "1",
         :first_name => "Andrew",
@@ -92,7 +92,7 @@ describe DecisionLogic::Request do
 
     describe "dev_config.yml" do
       it "should exist" do 
-        expect(File.read('dev_config.yml')).to_not raise_error
+        expect{File.read('dev_config.yml')}.to_not raise_error
       end
 
       it "is included in the gitignore file" do
@@ -102,19 +102,19 @@ describe DecisionLogic::Request do
     
     describe ".service_key" do
       it "returns service_key value" do
-        expect(VedaIdmatrix::Request.access[:url]).to eq('https://ctaau.vedaxml.com/cta/sys2/idmatrix-v4')
+        expect(@request.service_key).to_not eq(nil)
       end
     end 
 
     describe ".site_user_guid" do
       it "returns site_user_guid" do
-        expect(VedaIdmatrix::Request.access[:access_code]).to_not eq(nil)
+        expect(@request.site_user_guid).to_not eq(nil)
       end
     end
 
     describe ".profile_guid" do 
       it "returns profile_guid" do
-        expect(VedaIdmatrix::Request.access[:password]).to_not eq(nil)
+        expect(@request.profile_guid).to_not eq(nil)
       end
     end
       
