@@ -1,5 +1,8 @@
 require "decision_logic/version"
+require 'decision_logic/request'
 
 module DecisionLogic
-  # Your code goes here...
+
+
+  
 end
