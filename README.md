@@ -51,8 +51,6 @@ Or install it yourself as:
                 :first_name
                 :last_name
                 :account_number
-                :routing_number
-                :content_service_id
                 :email_address
 
     Returns either an error message or a 6 character string request code.
@@ -61,8 +59,7 @@ Or install it yourself as:
 
 1. Fork it ( http://github.com/<my-github-username>/decision_logic/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Copy lib/config/dev_config_template.yml to dev_config.yml in project root and populate with your account details (dev_config.yml is excluded from repo by .gitignore)
-4. Mark sure specs run green (that it is picking up your dev_config)
+3. See dev.rb file in root
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
